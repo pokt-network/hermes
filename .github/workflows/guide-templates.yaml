@@ -1,5 +1,6 @@
 name: Guide Template Checker
 on:
+  workflow_dispatch:
   pull_request:
     paths:
       - .github/workflows/guide-templates.yaml

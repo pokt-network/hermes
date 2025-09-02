@@ -1,6 +1,7 @@
 name: Hermes Guide
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - master
