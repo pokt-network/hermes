@@ -1,0 +1,331 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Performance tuning - Hermes (IBC Relayer CLI) Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hermes (IBC Relayer CLI) Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="performance-tuning"><a class="header" href="#performance-tuning">Performance tuning</a></h1>
+<h2 id="table-of-contents"><a class="header" href="#table-of-contents">Table of contents</a></h2>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#configuration-options">Configuration Options</a>
+<ul>
+<li><a href="#1-trusted-node">1. Trusted Node</a></li>
+<li><a href="#2-batch-delay">2. Batch Delay</a></li>
+<li><a href="#3-slow-start">3. Slow start</a>
+<ul>
+<li><a href="#31-specify-an-allow-list-in-the-packet-filter">3.1 Specify an allow list in the packet filter</a></li>
+<li><a href="#32-disable-clients-connections-channels-workers-and-packet-clearing-on-startup">3.2 Disable clients, connections, channels workers and packet clearing on startup</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+<h2 id="overview"><a class="header" href="#overview">Overview</a></h2>
+<p>Hermes provides several configuration options that users can tweak to optimize its performance to suit specific requirements. This guide provides an overview of these options, and suggests ways to modify them for different scenarios.</p>
+<p>The two per-chain configuration options you can use to tune the performance of Hermes as of version 1.5 are <code>trusted_node</code> and <code>batch_delay</code>.</p>
+<h2 id="configuration-options"><a class="header" href="#configuration-options">Configuration Options</a></h2>
+<h3 id="1-trusted-node"><a class="header" href="#1-trusted-node">1. Trusted Node</a></h3>
+<p>The <code>trusted_node</code> setting is an experimental option that determines whether or not the full node is trusted.</p>
+<pre><code class="language-toml">trusted_node = false
+</code></pre>
+<p>When set to <code>true</code>, Hermes trusts the full node and does not verify headers included in the <code>ClientUpdate</code> message using the light client.
+This could lead to faster processing as it bypasses the verification step.</p>
+<p>However, it's important to note that when the full node is configured as trusted, the verification traces will not be provided.
+This could potentially lead to failure in client updates after a significant change in validator sets.</p>
+<p>If you prefer security over speed, or if the validator set changes frequently, consider leaving this setting as <code>false</code>, which is also the default.</p>
+<h3 id="2-batch-delay"><a class="header" href="#2-batch-delay">2. Batch Delay</a></h3>
+<p>The <code>batch_delay</code> setting dictates the delay until an event batch is emitted if no <code>NewBlock</code> events have been received yet.</p>
+<pre><code class="language-toml">batch_delay = '500ms'
+</code></pre>
+<p>Lower <code>batch_delay</code> values will result in faster event processing, improving the latency of Hermes.
+However, setting it too low could sometimes cause events to be split across more batches than necessary, which will then cause Hermes to send more client updates than otherwise required.
+Conversely, higher values will increase the latency of Hermes, but will minimize the number of client updates.</p>
+<p>If you prioritize processing speed and can tolerate the potentially slightly higher costs, consider setting a lower <code>batch_delay</code>. For backup relayer or settings where latency is not as important, consider a higher <code>batch_delay</code>.</p>
+<p>The default <code>500ms</code> provides a good balance between speed and reliability, while still minimizing the number of client updates to send.</p>
+<h3 id="3-slow-start"><a class="header" href="#3-slow-start">3. Slow start</a></h3>
+<p>On blochains with many open channels, connections and/or clients, Hermes may take a long while to start.
+That is because Hermes needs to perform a scan of all available clients, connections and channels on that blockchain in order to refresh these clients, complete the handshakes of partially open channels and connections.
+If Hermes takes more than a couple minutes to start, that may be because there are too many clients, connections and/or channels.</p>
+<p>To alleviate this issue, there are two potential solutions:</p>
+<h4 id="31-specify-an-allow-list-in-the-packet-filter"><a class="header" href="#31-specify-an-allow-list-in-the-packet-filter">3.1 Specify an allow list in the packet filter</a></h4>
+<p>Add the end of the <code>[[chains]]</code> section for affected blockchain, you can specify a packet filter with an allow list.
+This will ensure Hermes will only scan for the listed channels, and gather the corresponding connections and clients for these channels only.</p>
+<p>For example, to only relay on two channels named <code>channel-0</code> and <code>channel-1</code>, on port <code>transfer</code>, you can add the following packet filter:</p>
+<pre><code class="language-toml"> [chains.packet_filter]
+ policy = 'allow'
+ list = [
+   ['transfer', 'channel-0'],
+   ['transfer', 'channel-1'],
+ ]
+</code></pre>
+<p><strong>Caveat:</strong> the allow list cannot contain any wildcards, otherwise Hermes will have to perform a full scan to
+gather all channels and subsequently filter them against the allow list.</p>
+<p>For example, the following configuration would cause Hermes to perform such a full scan, and therefore potentially slow down its startup time:</p>
+<pre><code class="language-toml"> [chains.packet_filter]
+ policy = 'allow'
+ list = [
+   ['ica*', '*'],
+   ['transfer', 'channel-0'],
+ ]
+</code></pre>
+<h4 id="32-disable-clients-connections-channels-workers-and-packet-clearing-on-startup"><a class="header" href="#32-disable-clients-connections-channels-workers-and-packet-clearing-on-startup">3.2 Disable clients, connections, channels workers and packet clearing on startup</a></h4>
+<p>If you wish to relay on all channels, or to use wildcards in the packet filter, then another option to speed up the startup is to disable
+scanning altogether.</p>
+<p>At the moment, there is no single setting to do this, but by disabling the clients, connections and channels workers and
+setting <code>clear_on_start</code> to <code>false</code> under the <code>mode.packets</code> section, Hermes will not need to perform a scan and will only
+relay packets on active channels, provided they match the packet filter, if present. Otherwise Hermes will relay on all
+active channels.</p>
+<p>Please note that because these settings are global, they will affect the behaviour of Hermes for all chains listed in its configuration.</p>
+<p>Here is how the configuration file should look like in order to disable scanning altogether.</p>
+<pre><code class="language-toml"># ...
+
+[mode.clients]
+enabled = false
+
+# ...
+
+[mode.connections]
+enabled = false
+
+# ...
+
+[mode.channels]
+enabled = false
+
+# ...
+
+[mode.packets]
+enabled = true
+clear_on_start = false
+</code></pre>
+<h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
+<p>The tuning of Hermes performance relies on the balance between processing speed and reliability. Keep in mind that tuning these configurations according to your needs could significantly improve the performance of your Hermes instance. Please thoroughly test any changes in a controlled environment before implementing them in a production setting.</p>
+<p>Remember, every blockchain and network has unique characteristics that can affect the performance of the relayer, so there's no one-size-fits-all configuration. Feel free to experiment and fine-tune these settings to achieve optimal performance for your specific use case.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../documentation/configuration/packet-clearing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../documentation/telemetry/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../documentation/configuration/packet-clearing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../documentation/telemetry/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Install Gaiad Manager - Hermes (IBC Relayer CLI) Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hermes (IBC Relayer CLI) Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h2 id="install-gaiad-manager"><a class="header" href="#install-gaiad-manager">Install Gaiad Manager</a></h2>
+<p>Gaiad manager (<code>gm</code>) is a command-line tool (CLI) that helps manage local <code>gaiad</code> networks.</p>
+<p>Follow the instructions below to install and configure <code>gm</code>.</p>
+<hr />
+<h3 id="requirements"><a class="header" href="#requirements">Requirements</a></h3>
+<ul>
+<li>Bourne shell (<code>sh</code>)</li>
+<li><a href="https://github.com/freshautomations/sconfig/releases"><code>sconfig</code></a> and
+<a href="https://github.com/freshautomations/stoml/releases"><code>stoml</code></a> installed in your PATH (put them in <code>/usr/local/bin</code>)</li>
+<li><code>sed</code>, <code>tr</code></li>
+<li>For shell-completion Bourne Again Shell (<code>bash</code>) for the local user</li>
+</ul>
+<h3 id="how-to-run"><a class="header" href="#how-to-run">How to run</a></h3>
+<ol>
+<li>
+<p>Install the dependencies.</p>
+<p>On macOS:</p>
+<pre><code class="language-bash"># You might need sudo permissions and create the `usr/local/bin` directory
+
+curl -Lo /usr/local/bin/sconfig https://github.com/freshautomations/sconfig/releases/download/v0.1.0/sconfig_darwin_amd64
+curl -Lo /usr/local/bin/stoml https://github.com/freshautomations/stoml/releases/download/v0.7.0/stoml_darwin_amd64
+chmod 755 /usr/local/bin/sconfig
+chmod 755 /usr/local/bin/stoml
+</code></pre>
+<p>On Linux:</p>
+<pre><code class="language-bash">curl -Lo /usr/local/bin/sconfig https://github.com/freshautomations/sconfig/releases/download/v0.1.0/sconfig_linux_amd64
+curl -Lo /usr/local/bin/stoml https://github.com/freshautomations/stoml/releases/download/v0.7.0/stoml_linux_amd64
+chmod 755 /usr/local/bin/sconfig
+chmod 755 /usr/local/bin/stoml
+</code></pre>
+</li>
+<li>
+<p>Install <code>gm</code></p>
+<pre><code class="language-bash">git clone https://github.com/informalsystems/gm
+gm/bin/gm install
+</code></pre>
+<p>Alternatively, you can create the folder <code>$HOME/.gm/bin</code> and copy the files from <code>gm/bin</code> in there.</p>
+</li>
+<li>
+<p>Activate <code>gm</code></p>
+</li>
+</ol>
+<blockquote>
+<p><strong>NOTE</strong>: The <code>shell-support</code> script allows bash-completion as well as creating a <code>gm</code> alias, so you don't need to add more entries to your PATH environment variable.
+You can optionally enable bash-completion with <code>gm</code> by doing the following:</p>
+<ul>
+<li>Add <code>source $HOME/.gm/bin/shell-support</code> to a file that executes when a new terminal window comes up (<code>$HOME/.bash_profile</code> or <code>$HOME/.bashrc</code> or <code>$HOME/.zprofile</code>)</li>
+<li>You may need to install <code>bash-completion</code> if adding <code>shell-support</code> raises a <code>command not found: complete</code> error message. You can do so by executing <code>brew install bash-completion</code> on macOS, or <code>apt install bash-completion || yum install bash-completion</code> on Linux.</li>
+<li>If you don't want to use this, you can always just add <code>$HOME/.gm/bin</code> to
+your path.</li>
+</ul>
+</blockquote>
+<ul>
+<li>Restart your terminal</li>
+</ul>
+<h3 id="the-configuration-gmtoml"><a class="header" href="#the-configuration-gmtoml">The configuration: <code>gm.toml</code></a></h3>
+<p><strong>Where</strong>: <code>$HOME/.gm/gm.toml</code>.</p>
+<p><strong>Description</strong>: This file contains all the high-level node configuration that <code>gm</code> is aware of. Note that all entries under <code>[global]</code> are also valid entries under any <code>[node]</code> header, and can be used to override the global entries for specific nodes/validators.</p>
+<p><strong>Entries</strong>: All entries are defined and documented in the <code>gm.toml</code> example configuration file.</p>
+<p>Copy and paste below to <code>$HOME/.gm/gm.toml</code> and set Hermes' binary path according to your setup.</p>
+<p>The following configuration you need to specify 2 <code>gaiad</code> chains. <code>hermes</code> will know about these chains.</p>
+<pre><code class="language-toml">[global]
+  add_to_hermes = false
+  auto_maintain_config = true
+  extra_wallets = 2
+  gaiad_binary = "~/go/bin/gaiad"
+  hdpath = ""
+  home_dir = "$HOME/.gm"
+  ports_start_at = 27000
+  validator_mnemonic = ""
+  wallet_mnemonic = ""
+
+  [global.hermes]
+    binary = "PATH-TO-HERMES-BINARY" #change this path according to your setup
+    config = "$HOME/.hermes/config.toml"
+    log_level = "info"
+    telemetry_enabled = true
+    telemetry_host = "127.0.0.1"
+    telemetry_port = 3001
+
+[ibc-0]
+  ports_start_at = 27010
+
+[ibc-1]
+  ports_start_at = 27020
+
+[node-0]
+  add_to_hermes = true
+  network = "ibc-0"
+  ports_start_at = 27030
+
+[node-1]
+  add_to_hermes = true
+  network = "ibc-1"
+  ports_start_at = 27040
+</code></pre>
+<blockquote>
+<p><strong>NOTE:</strong> Go to this page for more details about <a href="https://github.com/informalsystems/gm">Gaiad Manager</a></p>
+</blockquote>
+<hr />
+<h2 id="next-steps"><a class="header" href="#next-steps">Next steps</a></h2>
+<p>Now that <code>Gaiad Manager</code> is installed on your machine, visit the <a href="../local-chains/index.html">first tutorial</a> to learn the basics of Hermes. You will start two local chains and exchange tokens over IBC transfers.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../tutorials/pre-requisites/gaia.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../tutorials/local-chains/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../tutorials/pre-requisites/gaia.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../tutorials/local-chains/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

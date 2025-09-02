@@ -1,0 +1,535 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Client - Hermes (IBC Relayer CLI) Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../../favicon.svg">
+        <link rel="shortcut icon" href="../../../favicon.png">
+        <link rel="stylesheet" href="../../../css/variables.css">
+        <link rel="stylesheet" href="../../../css/general.css">
+        <link rel="stylesheet" href="../../../css/chrome.css">
+        <link rel="stylesheet" href="../../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../../../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hermes (IBC Relayer CLI) Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="table-of-contents"><a class="header" href="#table-of-contents">Table of Contents</a></h1>
+<ul>
+<li><a href="#query-clients">Query Clients</a></li>
+<li><a href="#query-client-data">Query Client Data</a>
+<ul>
+<li><a href="#query-the-client-state">Query the client state</a></li>
+<li><a href="#query-the-client-consensus-state">Query the client consensus state</a></li>
+<li><a href="#query-the-identifiers-of-all-connections-associated-with-a-given-client">Query the identifiers of all connections associated with a given client</a></li>
+<li><a href="#query-for-the-header-used-in-a-client-update-at-a-certain-height">Query for the header used in a client update at a certain height</a></li>
+<li><a href="#query-for-the-status-of-client-active-frozen-or-expired">Query for the status of client (active, frozen, or expired)</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="query-clients"><a class="header" href="#query-clients">Query Clients</a></h1>
+<p>Use the <code>query clients</code> command to query the identifiers of all clients on a given chain, called
+the <em>host</em> chain.</p>
+<pre><code class="language-shell">DESCRIPTION:
+Query the identifiers of all clients on a chain
+
+USAGE:
+    hermes query clients [OPTIONS] --host-chain &lt;HOST_CHAIN_ID&gt;
+
+OPTIONS:
+    -h, --help
+            Print help information
+
+        --omit-chain-ids
+            Omit printing the reference (or target) chain for each client
+
+        --reference-chain &lt;REFERENCE_CHAIN_ID&gt;
+            Filter for clients which target a specific chain id (implies '--omit-chain-ids')
+
+REQUIRED:
+        --host-chain &lt;HOST_CHAIN_ID&gt;    Identifier of the chain to query
+</code></pre>
+<p><strong>Example</strong></p>
+<p>Query all clients on <code>ibc-1</code>:</p>
+<pre><code class="language-shell">hermes query clients --host-chain ibc-1
+
+</code></pre>
+<pre><code class="language-json">Success: [
+    ClientChain {
+        client_id: ClientId(
+            "07-tendermint-0",
+        ),
+        chain_id: ChainId {
+            id: "ibc-0",
+            version: 0,
+        },
+    },
+    ClientChain {
+        client_id: ClientId(
+            "07-tendermint-1",
+        ),
+        chain_id: ChainId {
+            id: "ibc-2",
+            version: 2,
+        },
+    },
+]
+</code></pre>
+<p>Query all clients on <code>ibc-1</code> having <code>ibc-2</code> as their reference chain:</p>
+<pre><code class="language-shell">hermes query clients --reference-chain ibc-2 --host-chain ibc-1
+
+</code></pre>
+<pre><code class="language-json">Success: [
+    ClientId(
+        "07-tendermint-1",
+    ),
+]
+</code></pre>
+<h1 id="query-client-data"><a class="header" href="#query-client-data">Query Client Data</a></h1>
+<p>Use the <code>query client</code> command to query the information about a specific client.</p>
+<pre><code class="language-shell">DESCRIPTION:
+Query information about clients
+
+USAGE:
+    hermes query client &lt;SUBCOMMAND&gt;
+
+OPTIONS:
+    -h, --help    Print help information
+
+SUBCOMMANDS:
+    connections    Query the client connections
+    consensus      Query the client consensus state
+    header         Query for the header used in a client update at a certain height
+    help           Print this message or the help of the given subcommand(s)
+    state          Query the client state
+    status         Query the client status (frozen, expired or active)
+</code></pre>
+<h2 id="query-the-client-state"><a class="header" href="#query-the-client-state">Query the client state</a></h2>
+<p>Use the <code>query client state</code> command to query the client state of a client:</p>
+<pre><code class="language-shell">DESCRIPTION:
+Query the client state
+
+USAGE:
+    hermes query client state [OPTIONS] --chain &lt;CHAIN_ID&gt; --client &lt;CLIENT_ID&gt;
+
+OPTIONS:
+    -h, --help               Print help information
+        --height &lt;HEIGHT&gt;    The chain height context for the query
+
+REQUIRED:
+        --chain &lt;CHAIN_ID&gt;      Identifier of the chain to query
+        --client &lt;CLIENT_ID&gt;    Identifier of the client to query
+</code></pre>
+<p><strong>Example</strong></p>
+<p>Query the state of client <code>07-tendermint-2</code> on <code>ibc-1</code>:</p>
+<pre><code class="language-shell">hermes query client state --chain ibc-1 --client 07-tendermint-1
+
+</code></pre>
+<pre><code class="language-json">Success: ClientState {
+    chain_id: ChainId {
+        id: "ibc-2",
+        version: 2,
+    },
+    trust_threshold: TrustThresholdFraction {
+        numerator: 1,
+        denominator: 3,
+    },
+    trusting_period: 1209600s,
+    unbonding_period: 1814400s,
+    max_clock_drift: 3s,
+    frozen_height: Height {
+        revision: 0,
+        height: 0,
+    },
+    latest_height: Height {
+        revision: 2,
+        height: 3069,
+    },
+    upgrade_path: [
+        "upgrade",
+        "upgradedIBCState",
+    ],
+    allow_update_after_expiry: true,
+    allow_update_after_misbehaviour: true,
+}
+</code></pre>
+<h2 id="query-the-client-consensus-state"><a class="header" href="#query-the-client-consensus-state">Query the client consensus state</a></h2>
+<p>Use the <code>query client consensus</code> command to query the consensus states of a given client, or the state at a specified height:</p>
+<pre><code class="language-shell">DESCRIPTION:
+Query the client consensus state
+
+USAGE:
+    hermes query client consensus [OPTIONS] --chain &lt;CHAIN_ID&gt; --client &lt;CLIENT_ID&gt;
+
+OPTIONS:
+        --consensus-height &lt;CONSENSUS_HEIGHT&gt;
+            Height of the client's consensus state to query
+
+    -h, --help
+            Print help information
+
+        --height &lt;HEIGHT&gt;
+            The chain height context to be used, applicable only to a specific height
+
+REQUIRED:
+        --chain &lt;CHAIN_ID&gt;      Identifier of the chain to query
+        --client &lt;CLIENT_ID&gt;    Identifier of the client to query
+</code></pre>
+<p><strong>Example</strong></p>
+<p>Query the states of client <code>07-tendermint-0</code> on <code>ibc-0</code>:</p>
+<pre><code class="language-shell">hermes query client consensus --chain ibc-0 --client 07-tendermint-0
+
+</code></pre>
+<pre><code class="language-json">Success: [
+    Height {
+        revision: 1,
+        height: 3049,
+    },
+    Height {
+        revision: 1,
+        height: 2888,
+    },
+    Height {
+        revision: 1,
+        height: 2736,
+    },
+    Height {
+        revision: 1,
+        height: 2729,
+    },
+    Height {
+        revision: 1,
+        height: 2724,
+    },
+    Height {
+        revision: 1,
+        height: 2717,
+    },
+]
+</code></pre>
+<p>Query <code>ibc-0</code> at height <code>2800</code> for the consensus state for height <code>2724</code>:</p>
+<pre><code class="language-shell">hermes query client consensus --consensus-height 2724 --height 2800 --chain ibc-0 --client 07-tendermint-0
+
+</code></pre>
+<pre><code class="language-json">Success: ConsensusState {
+    timestamp: Time(
+        2021-04-13T14:11:20.969154Z
+    ),
+    root: CommitmentRoot(
+        "371DD19003221B60162D42C78FD86ABF95A572F3D9497084584B75F97B05B70C"
+    ),
+    next_validators_hash: Hash::Sha256(
+        740950668B6705A136D041914FC219045B1D0AD1C6A284C626BF5116005A98A7
+    ),
+}
+</code></pre>
+<h2 id="query-the-identifiers-of-all-connections-associated-with-a-given-client"><a class="header" href="#query-the-identifiers-of-all-connections-associated-with-a-given-client">Query the identifiers of all connections associated with a given client</a></h2>
+<p>Use the <code>query client connections</code> command to query the connections associated with a given client:</p>
+<pre><code class="language-shell">DESCRIPTION:
+Query the client connections
+
+USAGE:
+    hermes query client connections [OPTIONS] --chain &lt;CHAIN_ID&gt; --client &lt;CLIENT_ID&gt;
+
+OPTIONS:
+    -h, --help               Print help information
+        --height &lt;HEIGHT&gt;    The chain height which this query should reflect
+
+REQUIRED:
+        --chain &lt;CHAIN_ID&gt;      Identifier of the chain to query
+        --client &lt;CLIENT_ID&gt;    Identifier of the client to query
+</code></pre>
+<p><strong>Example</strong></p>
+<p>Query the connections of client <code>07-tendermint-0</code> on <code>ibc-0</code>:</p>
+<pre><code class="language-shell">hermes query client connections --chain ibc-0 --client 07-tendermint-0
+
+</code></pre>
+<pre><code class="language-json">Success: [
+    ConnectionId("connection-0"),
+    ConnectionId("connection-1"),
+]
+</code></pre>
+<h2 id="query-for-the-header-used-in-a-client-update-at-a-certain-height"><a class="header" href="#query-for-the-header-used-in-a-client-update-at-a-certain-height">Query for the header used in a client update at a certain height</a></h2>
+<pre><code>DESCRIPTION:
+Query for the header used in a client update at a certain height
+
+USAGE:
+    hermes query client header [OPTIONS] --chain &lt;CHAIN_ID&gt; --client &lt;CLIENT_ID&gt; --consensus-height &lt;CONSENSUS_HEIGHT&gt;
+
+OPTIONS:
+    -h, --help               Print help information
+        --height &lt;HEIGHT&gt;    The chain height context for the query. Leave unspecified for latest
+                             height.
+
+REQUIRED:
+        --chain &lt;CHAIN_ID&gt;                       Identifier of the chain to query
+        --client &lt;CLIENT_ID&gt;                     Identifier of the client to query
+        --consensus-height &lt;CONSENSUS_HEIGHT&gt;    Height of header to query
+</code></pre>
+<p><strong>Example</strong></p>
+<p>Query for the header used in the <code>07-tendermint-0</code> client update at height 2724 on <code>ibc-0</code>:</p>
+<pre><code class="language-shell">hermes query client header --chain ibc-0 --client 07-tendermint-0 --consensus-height 2724
+
+</code></pre>
+<pre><code class="language-json">Success: [
+    UpdateClient(
+        UpdateClient {
+            common: Attributes {
+                height: Height {
+                    revision: 0,
+                    height: 0,
+                },
+                client_id: ClientId(
+                    "07-tendermint-0",
+                ),
+                client_type: Tendermint,
+                consensus_height: Height {
+                    revision: 1,
+                    height: 2724,
+                },
+            },
+            header: Some(
+                Tendermint(...),
+            ),
+        },
+    ),
+]
+</code></pre>
+<h2 id="query-for-the-status-of-client-active-frozen-or-expired"><a class="header" href="#query-for-the-status-of-client-active-frozen-or-expired">Query for the status of client (active, frozen, or expired)</a></h2>
+<p>This command queries the status of a client, ie. whether it is active, frozen or expired.</p>
+<pre><code>DESCRIPTION:
+Query the client status (frozen, expired or active)
+
+USAGE:
+    hermes query client status --chain &lt;CHAIN_ID&gt; --client &lt;CLIENT_ID&gt;
+
+OPTIONS:
+    -h, --help    Print help information
+
+REQUIRED:
+        --chain &lt;CHAIN_ID&gt;      Identifier of the chain to query
+        --client &lt;CLIENT_ID&gt;    Identifier of the client to query
+</code></pre>
+<p><strong>Example</strong></p>
+<p>Query for the status of the client <code>07-tendermint-0</code> on <code>ibc-0</code>:</p>
+<pre><code class="language-shell">hermes query client status --chain ibc-0 --client 07-tendermint-0
+
+</code></pre>
+<pre><code>SUCCESS Active
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../documentation/commands/queries/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../documentation/commands/queries/connection.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../documentation/commands/queries/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../documentation/commands/queries/connection.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../elasticlunr.min.js"></script>
+        <script src="../../../mark.min.js"></script>
+        <script src="../../../searcher.js"></script>
+
+        <script src="../../../clipboard.min.js"></script>
+        <script src="../../../highlight.js"></script>
+        <script src="../../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../../mermaid.min.js"></script>
+        <script src="../../../mermaid-init.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

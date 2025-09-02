@@ -1,0 +1,388 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Features - Hermes (IBC Relayer CLI) Documentation</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Hermes (IBC Relayer CLI) Documentation</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="features"><a class="header" href="#features">Features</a></h1>
+<p>This section includes a summary of the supported and planned features. It also includes a feature matrix which compares <code>hermes</code> to the <a href="https://github.com/cosmos/relayer">cosmos-go-relayer</a>.</p>
+<blockquote>
+<p><strong>Cosmos SDK &amp; IBC compatibility:</strong>
+Hermes supports Cosmos SDK chains implementing the <a href="https://github.com/cosmos/ibc">IBC protocol v1</a> protocol specification.
+Cosmos SDK versions <code>0.46.0</code> through <code>0.53.x</code> are officially supported.
+IBC-go versions <code>6.3.1</code> through <code>10.x</code> are officially supported.
+In case Hermes finds an incompatible SDK or IBC-go version, it will output a log warning upon initialization as part of the <code>start</code> command or upon <code>health-check</code> command.</p>
+</blockquote>
+<hr />
+<h2 id="supported-features"><a class="header" href="#supported-features">Supported Features</a></h2>
+<ul>
+<li>Basic features
+<ul>
+<li>Create and update clients.</li>
+<li>Refresh clients to prevent expiration.</li>
+<li>Establish connections with new or existing clients.</li>
+<li>Establish channels with new or existing connection.</li>
+<li>Channel closing handshake.</li>
+<li>Relay packets, acknowledgments, timeout and timeout-on-close packets, with zero or non-zero delay.</li>
+<li>Queries for all objects.</li>
+</ul>
+</li>
+<li>Packet relaying over:
+<ul>
+<li>multiple paths, for the chains in <code>config.toml</code>.</li>
+</ul>
+</li>
+<li>Restart support:
+<ul>
+<li>Clear packets.</li>
+<li>Resume channel handshake if configured to relay <code>all</code>.</li>
+<li>Resume connection handshake if configured to relay <code>all</code>.</li>
+</ul>
+</li>
+<li>Client upgrade:
+<ul>
+<li>Upgrading clients after a counterparty chain has performed an upgrade for IBC breaking changes.</li>
+</ul>
+</li>
+<li>Packet delay:
+<ul>
+<li>Establish path over non-zero delay connection.</li>
+<li>Relay all packets with the specified delay.</li>
+</ul>
+</li>
+<li>Interchain Accounts &amp; Interchain Security
+<blockquote>
+<p>Relaying between Interchain Security-enabled chains requires Hermes v1.2+.</p>
+</blockquote>
+</li>
+<li>Monitor and submit misbehaviour for clients
+<ul>
+<li>Monitor client updates for misbehaviour (fork and BFT time violation).</li>
+<li>Submit misbehaviour evidence to the reference chain via <code>/broadcast_evidence</code> tendermint RPC.</li>
+<li>Submit misbehaviour evidence to the on-chain IBC client in a transaction that includes the <code>MsgMisbehaviour</code> message.</li>
+</ul>
+<blockquote>
+<p>Misbehaviour submission to full node not yet supported.</p>
+</blockquote>
+</li>
+<li>Individual commands that build and send transactions for:
+<ul>
+<li>Creating and updating IBC Tendermint light clients.</li>
+<li>Sending connection open handshake messages.</li>
+<li>Sending channel open handshake messages.</li>
+<li>Sending channel closing handshake messages.</li>
+<li>Initiating a cross chain transfer (mainly for testing).</li>
+<li>Relaying sent packets, acknowledgments and timeouts.</li>
+<li>Automatically generate a configuration file from the <a href="https://github.com/cosmos/chain-registry">chain-registry</a></li>
+<li>Client upgrade.</li>
+</ul>
+</li>
+<li>Channel handshake for existing channel that is not in <code>Open</code> state.</li>
+<li>Connection handshake for existing connection that is not in <code>Open</code> state.</li>
+<li>Telemetry support.</li>
+</ul>
+<h2 id="upcoming--unsupported-features"><a class="header" href="#upcoming--unsupported-features">Upcoming / Unsupported Features</a></h2>
+<p>Planned features:</p>
+<ul>
+<li>Interchain Queries</li>
+<li>Non-SDK support</li>
+<li>Relay from all IBC events, including governance upgrade proposal</li>
+<li>Dynamic &amp; automatic configuration management</li>
+</ul>
+<h2 id="features-matrix"><a class="header" href="#features-matrix">Features matrix</a></h2>
+<hr />
+<p><strong>Legend</strong>:</p>
+<div class="table-wrapper"><table><thead><tr><th>Term</th><th>Description</th></tr></thead><tbody>
+<tr><td>❌</td><td>feature not supported</td></tr>
+<tr><td>✅</td><td>feature is supported</td></tr>
+<tr><td><code>Chain</code></td><td>chain related</td></tr>
+<tr><td><code>Cl</code></td><td>client related</td></tr>
+<tr><td><code>Conn</code></td><td>connection related</td></tr>
+<tr><td><code>Chan</code></td><td>channel related</td></tr>
+<tr><td><code>Cfg</code></td><td>config related</td></tr>
+<tr><td><code>.._Handshake_..</code></td><td>can execute all transactions required to finish a handshake from a single command</td></tr>
+<tr><td><code>.._&lt;msg&gt;_A</code></td><td>building and sending <code>msg</code> from a command that scans chain state</td></tr>
+<tr><td><code>.._&lt;msg&gt;_P</code></td><td>building and sending <code>msg</code> from IBC event; doesn't apply to <code>.._Init</code> and <code>FT_Transfer</code> features</td></tr>
+</tbody></table>
+</div>
+<hr />
+<p><strong>Feature comparison between Hermes and the Go relayer</strong></p>
+<div class="table-wrapper"><table><thead><tr><th>Features \      Status</th><th style="text-align: center">Hermes</th><th style="text-align: center">Cosmos Go</th><th style="text-align: left">Feature Details</th></tr></thead><tbody>
+<tr><td>Feegrant support</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left">add <code>feeGranter</code> to tx sign for sending the transactions</td></tr>
+<tr><td></td><td style="text-align: center"></td><td style="text-align: center"></td><td style="text-align: left"></td></tr>
+<tr><td>Restart</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left">replays any IBC events that happened before restart</td></tr>
+<tr><td>Multiple_Paths</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left">relays on multiple paths concurrently</td></tr>
+<tr><td></td><td style="text-align: center"></td><td style="text-align: center"></td><td style="text-align: left"></td></tr>
+<tr><td>Connection Delay</td><td style="text-align: center">✅</td><td style="text-align: center">❌</td><td style="text-align: left"></td></tr>
+<tr><td>Cl_Misbehavior</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left">monitors and submits IBC client misbehavior</td></tr>
+<tr><td>Cl_Refresh</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left">periodically refresh an on-chain client to prevent expiration</td></tr>
+<tr><td>Packet Delay</td><td style="text-align: center">✅</td><td style="text-align: center">❌</td><td style="text-align: left"></td></tr>
+<tr><td></td><td style="text-align: center"></td><td style="text-align: center"></td><td style="text-align: left"></td></tr>
+<tr><td>Chan_Unordered</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left"></td></tr>
+<tr><td>Chan_Ordered</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left"></td></tr>
+<tr><td></td><td style="text-align: center"></td><td style="text-align: center"></td><td style="text-align: left"></td></tr>
+<tr><td>Cl_Tendermint_Create</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left">tendermint light client creation</td></tr>
+<tr><td>Cl_Tendermint_Update</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left">tendermint light client update</td></tr>
+<tr><td>Cl_Tendermint_Upgrade</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left">tendermint light client upgrade</td></tr>
+<tr><td></td><td style="text-align: center"></td><td style="text-align: center"></td><td style="text-align: left"></td></tr>
+<tr><td>Conn_Open_Handshake_A</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left"></td></tr>
+<tr><td>Conn_Open_Handshake_P</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left"></td></tr>
+<tr><td></td><td style="text-align: center"></td><td style="text-align: center"></td><td style="text-align: left"></td></tr>
+<tr><td>Chan_Open_Handshake_A</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left"></td></tr>
+<tr><td>Chan_Open_Handshake_P</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left"></td></tr>
+<tr><td>Chan_Open_Handshake_Optimistic</td><td style="text-align: center">❌</td><td style="text-align: center">❌</td><td style="text-align: left">open a channel on a non-Open connection</td></tr>
+<tr><td></td><td style="text-align: center"></td><td style="text-align: center"></td><td style="text-align: left"></td></tr>
+<tr><td>Chan_Close_Handshake_P</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left"></td></tr>
+<tr><td>Chan_Close_Handshake_A</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left"></td></tr>
+<tr><td></td><td style="text-align: center"></td><td style="text-align: center"></td><td style="text-align: left"></td></tr>
+<tr><td>FT_Transfer</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left">can submit an ICS-20 fungible token transfer message</td></tr>
+<tr><td>ICA_Relay</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left">can relay ICS-27 Interchain account packets</td></tr>
+<tr><td>Interchain Query (ICQ) support</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left">interchain querying using ABCI</td></tr>
+<tr><td>Cross-chain Queries</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left">cross-chain querying between IBC-enabled chains</td></tr>
+<tr><td>Packet_Recv_A</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left"></td></tr>
+<tr><td>Packet_Recv_P</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left"></td></tr>
+<tr><td>Packet_Timeout_A</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left"></td></tr>
+<tr><td>Packet_Timeout_P</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left"></td></tr>
+<tr><td>Packet_TimeoutClose_A</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left"></td></tr>
+<tr><td>Packet_TimeoutClose_P</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left"></td></tr>
+<tr><td>Packet_Optimistic</td><td style="text-align: center">❌</td><td style="text-align: center">❌</td><td style="text-align: left">relay packets over non-Open channels</td></tr>
+<tr><td></td><td style="text-align: center"></td><td style="text-align: center"></td><td style="text-align: left"></td></tr>
+<tr><td>Modular Architecture</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left">defined interface can be implemented for different chain types</td></tr>
+<tr><td>Cl_Non_Tendermint</td><td style="text-align: center">❌</td><td style="text-align: center">❌</td><td style="text-align: left">supports non tendermint IBC light clients</td></tr>
+<tr><td>Namada support</td><td style="text-align: center">✅</td><td style="text-align: center">❌</td><td style="text-align: left">supports Namada non-cosmos-SDK chain</td></tr>
+<tr><td>Penumbra support</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left">supports Penumbra non-cosmos-SDK chain</td></tr>
+<tr><td></td><td style="text-align: center"></td><td style="text-align: center"></td><td style="text-align: left"></td></tr>
+<tr><td>Cfg_Static</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left">provides means for configuration prior to being started</td></tr>
+<tr><td>Cfg_Dynamic</td><td style="text-align: center">❌</td><td style="text-align: center">❌</td><td style="text-align: left">provides means for configuration and monitoring during runtime</td></tr>
+<tr><td>Cfg_Download_Config</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left">provides means for downloading recommended configuration</td></tr>
+<tr><td>Cfg_Edit_Config</td><td style="text-align: center">❌</td><td style="text-align: center">✅</td><td style="text-align: left">provides means for editing the configuration from the CLI</td></tr>
+<tr><td>Cfg_Validation</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left">provides means to validate the current configuration</td></tr>
+<tr><td>Telemetry</td><td style="text-align: center">✅</td><td style="text-align: center">✅</td><td style="text-align: left">telemetry server to collect metrics</td></tr>
+<tr><td>REST API</td><td style="text-align: center">✅</td><td style="text-align: center">❌</td><td style="text-align: left">REST API to interact with the relayer</td></tr>
+</tbody></table>
+</div>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../advanced/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../advanced/troubleshooting/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../advanced/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../advanced/troubleshooting/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+
+    </div>
+    </body>
+</html>
